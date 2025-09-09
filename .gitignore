@@ -6,3 +6,4 @@
 /packetery/packetery_error.log
 .php-cs-fixer.*
 *.zip
+tests/
