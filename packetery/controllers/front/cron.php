@@ -1,4 +1,30 @@
 <?php
+/**
+ * 2017 Zlab Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ *  @author    Eugene Zubkov <magrabota@gmail.com>, RTsoft s.r.o
+ *  @copyright 2017 Zlab Solutions
+ *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
 use Packetery\Cron\Tasks\DeleteLabels;
 use Packetery\Cron\Tasks\DownloadCarriers;
@@ -22,10 +48,11 @@ class PacketeryCronModuleFrontController extends ModuleFrontController
 
     /**
      * @return void
+     *
      * @throws PrestaShopDatabaseException
      * @throws PrestaShopException
      * @throws ReflectionException
-     * @throws \Packetery\Exceptions\DatabaseException
+     * @throws Packetery\Exceptions\DatabaseException
      * @throws SmartyException
      */
     public function display()
@@ -34,12 +61,14 @@ class PacketeryCronModuleFrontController extends ModuleFrontController
 
         if ($this->validateToken() === false) {
             $this->renderError($this->module->l('Invalid packetery cron token.', 'cron'));
+
             return;
         }
 
         $task = Tools::getValue('task', null);
         if (!$task) {
             $this->renderError($this->module->l('Cron task to run was not specified.', 'cron'));
+
             return;
         }
 
@@ -105,7 +134,9 @@ class PacketeryCronModuleFrontController extends ModuleFrontController
 
     /**
      * @param array $errors
+     *
      * @return void
+     *
      * @throws SmartyException
      */
     public function renderErrors(array $errors)
@@ -117,7 +148,9 @@ class PacketeryCronModuleFrontController extends ModuleFrontController
 
     /**
      * @param string $message
+     *
      * @return void
+     *
      * @throws SmartyException
      */
     public function renderMessage($message)
@@ -133,7 +166,9 @@ class PacketeryCronModuleFrontController extends ModuleFrontController
 
     /**
      * @param string $message
+     *
      * @return void
+     *
      * @throws SmartyException
      */
     public function renderError($message)

@@ -1,22 +1,44 @@
 <?php
+/**
+ * 2017 Zlab Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ *  @author    Eugene Zubkov <magrabota@gmail.com>, RTsoft s.r.o
+ *  @copyright Since 2017 Zlab Solutions
+ *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
 
 namespace Packetery\PacketTracking;
 
-use DateTimeImmutable;
-use Order;
-use OrderState;
-use Packetery;
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 use Packetery\Log\LogRepository;
 use Packetery\Module\Helper;
 use Packetery\Module\SoapApi;
 use Packetery\Order\OrderRepository;
 use Packetery\Tools\ConfigHelper;
 use PrestaShop\PrestaShop\Adapter\Validate;
-use stdClass;
 
 class PacketTrackingCron
 {
-    /** @var Packetery */
+    /** @var \Packetery */
     private $module;
 
     /** @var OrderRepository */
@@ -35,7 +57,7 @@ class PacketTrackingCron
     private $logRepository;
 
     /**
-     * @param Packetery $module
+     * @param \Packetery $module
      * @param OrderRepository $orderRepository
      * @param SoapApi $soapApi
      * @param PacketTrackingRepository $packetTrackingRepository
@@ -43,12 +65,12 @@ class PacketTrackingCron
      * @param LogRepository $logRepository
      */
     public function __construct(
-        Packetery $module,
+        \Packetery $module,
         OrderRepository $orderRepository,
         SoapApi $soapApi,
         PacketTrackingRepository $packetTrackingRepository,
         PacketStatusComparator $packetStatusComparator,
-        LogRepository $logRepository
+        LogRepository $logRepository,
     ) {
         $this->module = $module;
         $this->orderRepository = $orderRepository;
@@ -63,13 +85,13 @@ class PacketTrackingCron
         $isPacketStatusTrackingEnabled = ConfigHelper::get('PACKETERY_PACKET_STATUS_TRACKING_ENABLED');
         if (!$isPacketStatusTrackingEnabled) {
             return [
-                'text' => $this->module->l('Packet status tracking is not active', 'packetrackingcron'),
+                'text' => $this->module->trans('Packet status tracking is not active', [], 'Modules.Packetery.Admin'),
                 'class' => 'danger',
             ];
         }
 
         $configOrderStatuses = ConfigHelper::get('PACKETERY_PACKET_STATUS_TRACKING_ORDER_STATES');
-        $orderStatuses = Helper::unserialize($configOrderStatuses);
+        $orderStatuses = Helper::convert_data($configOrderStatuses);
         if (!is_array($orderStatuses)) {
             return $this->getNoOrderStatusesMessage();
         }
@@ -80,14 +102,14 @@ class PacketTrackingCron
         }
 
         $configPacketStatuses = ConfigHelper::get('PACKETERY_PACKET_STATUS_TRACKING_PACKET_STATUSES');
-        $packetStatuses = Helper::unserialize($configPacketStatuses);
+        $packetStatuses = Helper::convert_data($configPacketStatuses);
 
         if (!is_array($packetStatuses)) {
             $packetStatuses = [];
         }
 
         $maxOrderAgeDays = ConfigHelper::get('PACKETERY_PACKET_STATUS_TRACKING_MAX_ORDER_AGE_DAYS');
-        $oldestOrderDate = new DateTimeImmutable("-{$maxOrderAgeDays} days");
+        $oldestOrderDate = new \DateTimeImmutable("-{$maxOrderAgeDays} days");
 
         $maxProcessedOrders = ConfigHelper::get('PACKETERY_PACKET_STATUS_TRACKING_MAX_PROCESSED_ORDERS');
         $orders = $this->orderRepository->getOrdersByStateAndLastUpdate($enabledOrderStatuses, $maxProcessedOrders, $oldestOrderDate);
@@ -97,13 +119,13 @@ class PacketTrackingCron
             $statusRecordsOrErrorMessage = $this->soapApi->getPacketTracking($order['tracking_number']);
 
             if (!is_string($statusRecordsOrErrorMessage)) {
-                /** @var stdClass $statusRecords */
+                /** @var \stdClass $statusRecords */
                 $statusRecords = $statusRecordsOrErrorMessage;
 
                 $this->logRepository->insertRow(
                     LogRepository::ACTION_PACKET_TRACKING,
                     [
-                        'response' => (array)$statusRecords,
+                        'response' => (array) $statusRecords,
                     ],
                     LogRepository::STATUS_SUCCESS,
                     $order['id_order']
@@ -120,7 +142,7 @@ class PacketTrackingCron
                 continue;
             }
 
-            if ((is_array($statusRecords->record) && count($statusRecords->record) === 0)) {
+            if (is_array($statusRecords->record) && count($statusRecords->record) === 0) {
                 continue;
             }
 
@@ -178,18 +200,19 @@ class PacketTrackingCron
                 $this->updateOrderStatus($lastRecord, $order['id_order']);
             }
 
-            $this->orderRepository->setLastUpdateTrackingStatus(new DateTimeImmutable('now'), $order['id_order']);
+            $this->orderRepository->setLastUpdateTrackingStatus(new \DateTimeImmutable('now'), $order['id_order']);
         }
 
         return [
-            'text' => $this->module->l('Order statuses have been updated.', 'packetrackingcron'),
+            'text' => $this->module->trans('Order statuses have been updated.', [], 'Modules.Packetery.Admin'),
             'class' => 'success',
         ];
     }
 
     /**
-     * @param stdClass $lastRecord
+     * @param \stdClass $lastRecord
      * @param int $orderId
+     *
      * @return void
      */
     private function updateOrderStatus($lastRecord, $orderId)
@@ -197,13 +220,13 @@ class PacketTrackingCron
         $lastStatusCode = $lastRecord->statusCode;
         $newOrderStatus = ConfigHelper::get('PACKETERY_ORDER_STATUS_CHANGE_' . $lastStatusCode);
 
-        $order = new Order($orderId);
+        $order = new \Order($orderId);
         $isOrderExists = Validate::isLoadedObject($order);
         if ($isOrderExists === false) {
             return;
         }
 
-        $orderState = new OrderState($newOrderStatus);
+        $orderState = new \OrderState($newOrderStatus);
         $isOrderStateExists = Validate::isLoadedObject($orderState);
         if ($isOrderStateExists === false) {
             return;
@@ -213,7 +236,7 @@ class PacketTrackingCron
             return;
         }
 
-        $order->setCurrentState((int)$newOrderStatus);
+        $order->setCurrentState((int) $newOrderStatus);
     }
 
     /**
@@ -222,7 +245,7 @@ class PacketTrackingCron
     public function getNoOrderStatusesMessage(): array
     {
         return [
-            'text' => $this->module->l('No order statuses configured for packet tracking', 'packetrackingcron'),
+            'text' => $this->module->trans('No order statuses configured for packet tracking', [], 'Modules.Packetery.Admin'),
             'class' => 'danger',
         ];
     }

@@ -1,6 +1,33 @@
 <?php
+/**
+ * 2017 Zlab Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ *  @author    Eugene Zubkov <magrabota@gmail.com>, RTsoft s.r.o
+ *  @copyright 2017 Zlab Solutions
+ *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
 
 namespace Packetery\Module;
+
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
 use Packetery;
 use Packetery\Exceptions\SenderGetReturnRoutingException;
@@ -10,16 +37,14 @@ use Packetery\Response\PacketCarrierNumber;
 use Packetery\Response\PacketInfo;
 use Packetery\Tools\ConfigHelper;
 use Packetery\Tools\MessageManager;
-use ReflectionException;
-use SoapClient;
 use SoapFault;
 
 class SoapApi
 {
-    const WSDL_URL = 'http://www.zasilkovna.cz/api/soap-php-bugfix.wsdl';
+    public const WSDL_URL = 'http://www.zasilkovna.cz/api/soap-php-bugfix.wsdl';
 
     /**
-     * @var Packetery
+     * @var \Packetery
      */
     private $module;
     /**
@@ -28,10 +53,10 @@ class SoapApi
     private $configHelper;
 
     /**
-     * @param Packetery $module
+     * @param \Packetery $module
      * @param ConfigHelper $configHelper
      */
-    public function __construct(Packetery $module, ConfigHelper $configHelper)
+    public function __construct(\Packetery $module, ConfigHelper $configHelper)
     {
         $this->module = $module;
         $this->configHelper = $configHelper;
@@ -39,49 +64,55 @@ class SoapApi
 
     /**
      * @param string $senderIndication
-     * @return array with 2 return routing strings for a sender specified by $senderIndication.
+     *
+     * @return array with 2 return routing strings for a sender specified by $senderIndication
+     *
      * @throws SenderGetReturnRoutingException
      */
     public function senderGetReturnRouting($senderIndication)
     {
-        $client = new SoapClient(self::WSDL_URL);
+        $client = new \SoapClient(self::WSDL_URL);
         try {
             $response = $client->senderGetReturnRouting($this->configHelper->getApiPass(), $senderIndication);
+
             return $response->routingSegment;
-        } catch (SoapFault $e) {
+        } catch (\SoapFault $e) {
             throw new SenderGetReturnRoutingException($e->getMessage(), isset($e->detail->SenderNotExists));
         }
     }
 
     /**
      * @param string $packetId
+     *
      * @return PacketInfo
      */
     public function getPacketInfo($packetId)
     {
         $packetInfo = new PacketInfo();
         try {
-            $client = new SoapClient(self::WSDL_URL);
+            $client = new \SoapClient(self::WSDL_URL);
             // get PacketInfoResult
             $response = $client->packetInfo($this->configHelper->getApiPass(), $packetId);
             if (
-                !empty($response->courierInfo) &&
-                isset($response->courierInfo->courierInfoItem, $response->courierInfo->courierInfoItem->courierTrackingUrls)
+                !empty($response->courierInfo)
+                && isset($response->courierInfo->courierInfoItem, $response->courierInfo->courierInfoItem->courierTrackingUrls)
             ) {
                 $packetInfo->setNumber($response->courierInfo->courierInfoItem->courierNumbers->courierNumber);
                 $packetInfo->setTrackingLink($this->getTrackingUrlInProperLanguage(
                     $response->courierInfo->courierInfoItem->courierTrackingUrls->courierTrackingUrl
                 ));
             }
-        } catch (SoapFault $exception) {
+        } catch (\SoapFault $exception) {
             $packetInfo->setFault($this->getFaultIdentifier($exception));
             $packetInfo->setFaultString($exception->faultstring);
         }
+
         return $packetInfo;
     }
 
     /**
      * @param object|array $courierTrackingUrl
+     *
      * @return string|null
      */
     public function getTrackingUrlInProperLanguage($courierTrackingUrl)
@@ -107,8 +138,10 @@ class SoapApi
             if ($urlEn) {
                 return $urlEn;
             }
+
             return $courierTrackingUrl[0]->url;
         }
+
         return null;
     }
 
@@ -116,16 +149,17 @@ class SoapApi
      * Requests carrier number for a packet.
      *
      * @param string $packetId
+     *
      * @return PacketCarrierNumber
      */
     public function packetCarrierNumber($packetId)
     {
         $response = new PacketCarrierNumber();
         try {
-            $soapClient = new SoapClient(self::WSDL_URL);
+            $soapClient = new \SoapClient(self::WSDL_URL);
             $number = $soapClient->packetCourierNumber($this->configHelper->getApiPass(), $packetId);
             $response->setNumber($number);
-        } catch (SoapFault $exception) {
+        } catch (\SoapFault $exception) {
             $response->setFault($this->getFaultIdentifier($exception));
             $response->setFaultString($exception->faultstring);
         }
@@ -135,9 +169,11 @@ class SoapApi
 
     /**
      * @param array $packets
+     *
      * @return array
+     *
      * @throws Packetery\Exceptions\DatabaseException
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function getPacketIdsWithCarrierNumbers($packets)
     {
@@ -155,6 +191,7 @@ class SoapApi
                 if ($response->hasFault()) {
                     if ($response->hasWrongPassword()) {
                         $messageManager->setMessage('warning', $this->module->l('Used API password is not valid.', 'soapapi'));
+
                         return $result;
                     }
                     $logRepository->insertRow(
@@ -185,10 +222,11 @@ class SoapApi
     /**
      * Gets fault identifier from SoapFault exception.
      *
-     * @param SoapFault $exception
+     * @param \SoapFault $exception
+     *
      * @return int|string
      */
-    private function getFaultIdentifier(SoapFault $exception)
+    private function getFaultIdentifier(\SoapFault $exception)
     {
         if (isset($exception->detail)) {
             return array_keys(get_object_vars($exception->detail))[0];
@@ -199,16 +237,18 @@ class SoapApi
 
     /**
      * @param string $packetId
+     *
      * @return array|string
      */
     public function getPacketTracking($packetId)
     {
-        $client = new SoapClient(self::WSDL_URL);
+        $client = new \SoapClient(self::WSDL_URL);
         try {
             $response = $client->packetTracking($this->configHelper->getApiPass(), $packetId);
-        } catch (SoapFault $exception) {
+        } catch (\SoapFault $exception) {
             return $exception->faultstring;
         }
+
         return $response;
     }
 
@@ -216,16 +256,17 @@ class SoapApi
      * @param array $packets
      * @param string $format
      * @param string $offset
+     *
      * @return Packetery\Response\PacketsLabelsPdfResponse
      */
     public function getPacketsLabelsPdf(array $packets, $format, $offset)
     {
         $response = new Packetery\Response\PacketsLabelsPdfResponse();
         try {
-            $soapClient = new SoapClient(self::WSDL_URL);
+            $soapClient = new \SoapClient(self::WSDL_URL);
             $pdfContents = $soapClient->packetsLabelsPdf($this->configHelper->getApiPass(), $packets, $format, $offset);
             $response->setPdfContents($pdfContents);
-        } catch (SoapFault $exception) {
+        } catch (\SoapFault $exception) {
             $response->setFault($this->getFaultIdentifier($exception));
             $response->setFaultString($exception->faultstring);
 
@@ -241,16 +282,17 @@ class SoapApi
      * @param array $packetsEnhanced
      * @param string $format
      * @param string $offset
+     *
      * @return Packetery\Response\PacketsCourierLabelsPdfResponse
      */
     public function getPacketsCourierLabelsPdf(array $packetsEnhanced, $format, $offset)
     {
         $response = new Packetery\Response\PacketsCourierLabelsPdfResponse();
         try {
-            $soapClient = new SoapClient(self::WSDL_URL);
+            $soapClient = new \SoapClient(self::WSDL_URL);
             $pdfContents = $soapClient->packetsCourierLabelsPdf($this->configHelper->getApiPass(), $packetsEnhanced, $offset, $format);
             $response->setPdfContents($pdfContents);
-        } catch (SoapFault $exception) {
+        } catch (\SoapFault $exception) {
             $response->setFault($this->getFaultIdentifier($exception));
             $response->setFaultString($exception->faultstring);
         }

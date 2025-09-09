@@ -1,8 +1,34 @@
 <?php
+/**
+ * 2017 Zlab Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ *  @author    Eugene Zubkov <magrabota@gmail.com>, RTsoft s.r.o
+ *  @copyright Since 2017 Zlab Solutions
+ *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
 
 namespace Packetery\Order;
 
-use Packetery;
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 use Packetery\Exceptions\LabelPrintException;
 use Packetery\Log\LogRepository;
 use Packetery\Module\SoapApi;
@@ -12,30 +38,32 @@ use Packetery\Tools\ConfigHelper;
 
 class Labels
 {
-    const TYPE_PACKETA = 'packeta';
-    const TYPE_CARRIER = 'carrier';
+    public const TYPE_PACKETA = 'packeta';
+    public const TYPE_CARRIER = 'carrier';
 
     /** @var LogRepository */
     private $logRepository;
 
-    /** @var Packetery */
+    /** @var \Packetery */
     private $module;
 
     public function __construct(
         LogRepository $logRepository,
-        Packetery $module
+        \Packetery $module,
     ) {
         $this->logRepository = $logRepository;
         $this->module = $module;
     }
 
     /**
-     * @param array $packets Used for packeta labels.
+     * @param array $packets used for packeta labels
      * @param string $type
-     * @param array|null $packetsEnhanced Used for carrier labels.
+     * @param array|null $packetsEnhanced used for carrier labels
      * @param int $offset
      * @param bool $fallbackToPacketaLabel
+     *
      * @return string
+     *
      * @throws LabelPrintException
      */
     public function packetsLabelsPdf(array $packets, $type, $packetsEnhanced = null, $offset = 0, $fallbackToPacketaLabel = false)
@@ -109,6 +137,7 @@ class Labels
      * @param string $type
      * @param array $carrierNumbers
      * @param PacketsLabelsPdfResponse|PacketsCourierLabelsPdfResponse $response
+     *
      * @return array
      */
     public function buildLogProperties($packetNumber, $format, $type, array $carrierNumbers, $response)
@@ -124,8 +153,8 @@ class Labels
         if (isset($carrierNumbers[$packetNumber])) {
             $logProperties['packetCourierNumber'] = $carrierNumbers[$packetNumber];
             if (
-                $response instanceof PacketsCourierLabelsPdfResponse &&
-                $response->hasInvalidCourierNumber($carrierNumbers[$packetNumber]) === true
+                $response instanceof PacketsCourierLabelsPdfResponse
+                && $response->hasInvalidCourierNumber($carrierNumbers[$packetNumber]) === true
             ) {
                 $logProperties['isCourierNumberInvalid'] = true;
             }

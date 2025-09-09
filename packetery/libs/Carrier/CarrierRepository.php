@@ -1,6 +1,33 @@
 <?php
+/**
+ * 2017 Zlab Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ *  @author    Eugene Zubkov <magrabota@gmail.com>, RTsoft s.r.o
+ *  @copyright 2017 Zlab Solutions
+ *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
 
 namespace Packetery\Carrier;
+
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
 use Db;
 use Packetery;
@@ -10,9 +37,9 @@ use Packetery\Tools\DbTools;
 
 class CarrierRepository
 {
-    const ADDRESS_VALIDATION_COUNTRIES = ['CZ', 'SK'];
+    public const ADDRESS_VALIDATION_COUNTRIES = ['CZ', 'SK'];
 
-    /** @var Db $db */
+    /** @var \Db */
     private $db;
 
     /** @var DbTools */
@@ -21,10 +48,10 @@ class CarrierRepository
     /**
      * CarrierRepository constructor.
      *
-     * @param Db $db
+     * @param \Db $db
      * @param DbTools $dbTools
      */
-    public function __construct(Db $db, DbTools $dbTools)
+    public function __construct(\Db $db, DbTools $dbTools)
     {
         $this->db = $db;
         $this->dbTools = $dbTools;
@@ -32,23 +59,26 @@ class CarrierRepository
 
     /**
      * @param int $carrierId
+     *
      * @return bool
+     *
      * @throws DatabaseException
      */
     public function existsById($carrierId)
     {
-        $carrierId = (int)$carrierId;
+        $carrierId = (int) $carrierId;
         $result = $this->dbTools->getValue(
             'SELECT 1 FROM `' . _DB_PREFIX_ . 'packetery_address_delivery` WHERE `id_carrier` = ' . $carrierId
         );
 
-        return ((int)$result === 1);
+        return (int) $result === 1;
     }
 
     /**
      * Get all active packetery carriers
      *
-     * @return array|false|\mysqli_result|null|\PDOStatement|resource
+     * @return array|false|\mysqli_result|\PDOStatement|resource|null
+     *
      * @throws DatabaseException
      */
     public function getPacketeryCarriersList()
@@ -65,6 +95,7 @@ class CarrierRepository
 
     /**
      * @return array|bool|\mysqli_result|\PDOStatement|resource|null
+     *
      * @throws DatabaseException
      */
     public function getPickupPointCarriers()
@@ -78,6 +109,7 @@ class CarrierRepository
 
     /**
      * @return array|false
+     *
      * @throws DatabaseException
      */
     public function getAddressValidationLevels()
@@ -86,17 +118,21 @@ class CarrierRepository
             'SELECT `id_carrier`, `address_validation` FROM `' . _DB_PREFIX_ . 'packetery_address_delivery`
             WHERE `pickup_point_type` IS NULL'
         );
+
         return $this->dbTools->getPairs($result, 'id_carrier', 'address_validation');
     }
 
     /**
      * @param int $carrierId
+     *
      * @return array|bool|object|null
+     *
      * @throws DatabaseException
      */
     public function getPacketeryCarrierById($carrierId)
     {
-        $carrierId = (int)$carrierId;
+        $carrierId = (int) $carrierId;
+
         return $this->dbTools->getRow('
             SELECT `id_carrier`, `id_branch`, `name_branch`, `currency_branch`, `pickup_point_type`, `is_cod`, 
                    `address_validation`, `allowed_vendors`
@@ -106,23 +142,27 @@ class CarrierRepository
 
     /**
      * @return array|bool|\mysqli_result|\PDOStatement|resource|null
+     *
      * @throws DatabaseException
      */
     public function getInternalPickupPointCarriers()
     {
         return $this->dbTools->getRows(sprintf('
             SELECT `id_carrier`, `id_branch` FROM `' . _DB_PREFIX_ . 'packetery_address_delivery`
-            WHERE `id_branch` IN ("%s", "%s")', Packetery::ZPOINT, Packetery::PP_ALL));
+            WHERE `id_branch` IN ("%s", "%s")', \Packetery::ZPOINT, \Packetery::PP_ALL));
     }
 
     /**
      * @param int $carrierId
+     *
      * @return array|bool|object|null
+     *
      * @throws DatabaseException
      */
     public function getById($carrierId)
     {
-        $carrierId = (int)$carrierId;
+        $carrierId = (int) $carrierId;
+
         return $this->dbTools->getRow('
             SELECT `c`.`id_carrier`, `name`, `id_branch`, `is_cod`, `address_validation`, `allowed_vendors`
             FROM `' . _DB_PREFIX_ . 'carrier` `c`
@@ -133,29 +173,35 @@ class CarrierRepository
     /**
      * @param int $oldId
      * @param int $newId
+     *
      * @throws DatabaseException
      */
     public function swapId($oldId, $newId)
     {
-        $oldId = (int)$oldId;
-        $newId = (int)$newId;
+        $oldId = (int) $oldId;
+        $newId = (int) $newId;
         $this->dbTools->update('packetery_address_delivery', ['id_carrier' => $newId], '`id_carrier` = ' . $oldId);
     }
 
     /**
      * @param int $carrierId
+     *
      * @return bool
+     *
      * @throws DatabaseException
      */
     public function deleteById($carrierId)
     {
-        $carrierId = (int)$carrierId;
+        $carrierId = (int) $carrierId;
+
         return $this->dbTools->delete('packetery_address_delivery', '`id_carrier` = ' . $carrierId);
     }
 
     /**
      * @param array $fieldsToSet
+     *
      * @return bool
+     *
      * @throws DatabaseException
      */
     private function insertPacketery(array $fieldsToSet)
@@ -166,23 +212,27 @@ class CarrierRepository
     /**
      * @param array $carrierUpdate
      * @param int $carrierId
+     *
      * @throws DatabaseException
      */
     public function updatePresta(array $carrierUpdate, $carrierId)
     {
-        $carrierId = (int)$carrierId;
+        $carrierId = (int) $carrierId;
         $this->dbTools->update('carrier', $carrierUpdate, '`id_carrier` = ' . $carrierId, 0, true);
     }
 
     /**
      * @param array $carrierUpdate
      * @param int $carrierId
+     *
      * @return bool
+     *
      * @throws DatabaseException
      */
     public function updatePacketery(array $carrierUpdate, $carrierId)
     {
-        $carrierId = (int)$carrierId;
+        $carrierId = (int) $carrierId;
+
         return $this->dbTools->update('packetery_address_delivery', $carrierUpdate, '`id_carrier` = ' . $carrierId, 0, true);
     }
 
@@ -196,7 +246,9 @@ class CarrierRepository
      * @param string|null $pickupPointType
      * @param bool $isCod
      * @param string|null $addressValidation
+     *
      * @return bool
+     *
      * @throws DatabaseException
      */
     public function setPacketeryCarrier(
@@ -207,12 +259,12 @@ class CarrierRepository
         $pickupPointType,
         $isCod,
         $addressValidation,
-        $allowedVendors
+        $allowedVendors,
     ) {
-        $carrierId = (int)$carrierId;
-        $branchId = (string)$branchId;
-        $branchName = (string)$branchName;
-        $isCod = (bool)$isCod;
+        $carrierId = (int) $carrierId;
+        $branchId = (string) $branchId;
+        $branchName = (string) $branchName;
+        $isCod = (bool) $isCod;
 
         $isPacketeryCarrier = $this->existsById($carrierId);
         if ($branchId === '' && $isPacketeryCarrier) {
@@ -226,10 +278,10 @@ class CarrierRepository
         } else {
             $fieldsToSet = [
                 'pickup_point_type' => $pickupPointType,
-                'id_branch'         => $this->db->escape($branchId),
-                'name_branch'       => $this->db->escape($branchName),
-                'is_cod'            => $isCod,
-                'allowed_vendors'   => $allowedVendors,
+                'id_branch' => $this->db->escape($branchId),
+                'name_branch' => $this->db->escape($branchName),
+                'is_cod' => $isCod,
+                'allowed_vendors' => $allowedVendors,
             ];
             if ($pickupPointType === null) {
                 if (!$addressValidation) {
@@ -239,7 +291,7 @@ class CarrierRepository
             } else {
                 $fieldsToSet['address_validation'] = null;
             }
-            if ($branchId === Packetery::ZPOINT || $branchId === Packetery::PP_ALL) {
+            if ($branchId === \Packetery::ZPOINT || $branchId === \Packetery::PP_ALL) {
                 $fieldsToSet['currency_branch'] = null;
             } else {
                 $fieldsToSet['currency_branch'] = $this->db->escape($branchCurrency);

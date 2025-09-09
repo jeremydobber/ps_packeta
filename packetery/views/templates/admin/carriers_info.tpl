@@ -1,6 +1,29 @@
+{**
+ * 2017 Zlab Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ *  @author    Eugene Zubkov <magrabota@gmail.com>, RTsoft s.r.o
+ *  @copyright Since 2017 Zlab Solutions
+ *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ *}
 <div class="packetery-panel panel col-lg-12">
 	<div class="panel-heading">
-		{l s='Packeta carriers update' mod='packetery'}
+		{l s='Packeta carriers update' d='Modules.Packetery.Carriers_info'}
 	</div>
 
 	<div class="clearfix">
@@ -17,14 +40,14 @@
 		{if $totalCarriers}
 			<div class="clearfix">
 				<label class="control-label col-lg-3">
-					{l s='Total carriers' mod='packetery'}:
+					{l s='Total carriers' d='Modules.Packetery.Carriers_info'}:
 				</label>
 				<div class="packetery-carriers-right-column"><strong>{$totalCarriers|escape:'htmlall':'UTF-8'}</strong></div>
 			</div>
 
 			<div class="clearfix">
 				<label class="control-label col-lg-3">
-					{l s='Last carriers update' mod='packetery'}:
+					{l s='Last carriers update' d='Modules.Packetery.Carriers_info'}:
 				</label>
 				<div class="packetery-carriers-right-column">{$lastCarriersUpdate|escape:'htmlall':'UTF-8'}</div>
 			</div>
@@ -32,7 +55,7 @@
 			<div class="clearfix">
 				<label class="control-label col-lg-3"></label>
 				<div class="packetery-carriers-right-column packetery-button-container">
-					{l s='The list of carriers is currently empty.' mod='packetery'}
+					{l s='The list of carriers is currently empty.' d='Modules.Packetery.Carriers_info'}
 				</div>
 			</div>
 		{/if}
@@ -40,13 +63,13 @@
 			<label class="control-label col-lg-3"></label>
 			<div class="packetery-carriers-right-column packetery-button-container">
 				<img src="{$module_dir|escape:'html':'UTF-8'}/logo.png" alt="Packeta" />
-				<a href="{$updateCarriersLink}" class="btn btn-default btn-block"><i class="icon-arrow-down"></i> {l s='Manually update the list of carriers' mod='packetery'}</a>
+				<a href="{$updateCarriersLink}" class="btn btn-default btn-block"><i class="icon-arrow-down"></i> {l s='Manually update the list of carriers' d='Modules.Packetery.Carriers_info'}</a>
 			</div>
 		</div>
 	{else}
 		<div class="clearfix">
 			<div class="packetery-carriers-right-column packetery-button-container">
-				{l s='It is not possible to use the update of carriers. First, set an API password.' mod='packetery'}
+				{l s='It is not possible to use the update of carriers. First, set an API password.' d='Modules.Packetery.Carriers_info'}
 			</div>
 		</div>
 	{/if}

@@ -1,11 +1,37 @@
 <?php
+/**
+ * 2017 Zlab Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ *  @author    Eugene Zubkov <magrabota@gmail.com>, RTsoft s.r.o
+ *  @copyright 2017 Zlab Solutions
+ *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
 
 namespace Packetery\ApiCarrier;
+
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Message\Response;
-use Packetery;
 use Packetery\Exceptions\DatabaseException;
 use Packetery\Exceptions\DownloadException;
 use Packetery\Module\SoapApi;
@@ -13,9 +39,9 @@ use Packetery\Tools\ConfigHelper;
 
 class Downloader
 {
-    const API_URL = 'https://www.zasilkovna.cz/api/v4/%s/branch.json?address-delivery';
+    public const API_URL = 'https://www.zasilkovna.cz/api/v4/%s/branch.json?address-delivery';
 
-    /** @var Packetery */
+    /** @var \Packetery */
     private $module;
 
     /** @var ApiCarrierRepository */
@@ -27,11 +53,11 @@ class Downloader
     /**
      * Downloader constructor.
      *
-     * @param Packetery $module
+     * @param \Packetery $module
      * @param ApiCarrierRepository $apiCarrierRepository
      * @param SoapApi $configHelper
      */
-    public function __construct(Packetery $module, ApiCarrierRepository $apiCarrierRepository, ConfigHelper $configHelper)
+    public function __construct(\Packetery $module, ApiCarrierRepository $apiCarrierRepository, ConfigHelper $configHelper)
     {
         $this->module = $module;
         $this->apiCarrierRepository = $apiCarrierRepository;
@@ -42,6 +68,7 @@ class Downloader
      * Runs update and returns result.
      *
      * @return array
+     *
      * @throws DatabaseException
      */
     public function run()
@@ -51,7 +78,7 @@ class Downloader
         } catch (\Exception $e) {
             return [
                 'text' => sprintf(
-                    $this->module->l('Carrier download failed: %s Please try again later.', 'downloader'),
+                    $this->module->trans('Carrier download failed: %s Please try again later.', [], 'Modules.Packetery.Admin'),
                     $e->getMessage()
                 ),
                 'class' => 'danger',
@@ -60,8 +87,8 @@ class Downloader
         if (!$carriers) {
             return [
                 'text' => sprintf(
-                    $this->module->l('Carrier download failed: %s Please try again later.', 'downloader'),
-                    $this->module->l('Failed to get the list.', 'downloader')
+                    $this->module->trans('Carrier download failed: %s Please try again later.', [], 'Modules.Packetery.Admin'),
+                    $this->module->trans('Failed to get the list.', [], 'Modules.Packetery.Admin')
                 ),
                 'class' => 'danger',
             ];
@@ -70,8 +97,8 @@ class Downloader
         if (!$validation_result) {
             return [
                 'text' => sprintf(
-                    $this->module->l('Carrier download failed: %s Please try again later.', 'downloader'),
-                    $this->module->l('Invalid API response.', 'downloader')
+                    $this->module->trans('Carrier download failed: %s Please try again later.', [], 'Modules.Packetery.Admin'),
+                    $this->module->trans('Invalid API response.', [], 'Modules.Packetery.Admin')
                 ),
                 'class' => 'danger',
             ];
@@ -80,7 +107,7 @@ class Downloader
         ConfigHelper::update('PACKETERY_LAST_CARRIERS_UPDATE', time());
 
         return [
-            'text' => $this->module->l('Carriers were updated.', 'downloader'),
+            'text' => $this->module->trans('Carriers were updated.', [], 'Modules.Packetery.Admin'),
             'class' => 'success',
         ];
     }
@@ -89,7 +116,8 @@ class Downloader
      * Downloads carriers and returns in array.
      *
      * @return array|null
-     * @throws DownloadException DownloadException.
+     *
+     * @throws DownloadException downloadException
      */
     private function fetchAsArray()
     {
@@ -102,7 +130,8 @@ class Downloader
      * Downloads carriers in JSON.
      *
      * @return string
-     * @throws DownloadException DownloadException.
+     *
+     * @throws DownloadException downloadException
      */
     private function downloadJson()
     {
@@ -122,6 +151,7 @@ class Downloader
             if (isset($body)) {
                 return $body->getContents();
             }
+
             return '';
         }
 
@@ -131,20 +161,22 @@ class Downloader
     /**
      * Converts JSON to array.
      *
-     * @param string $json JSON.
+     * @param string $json JSON
+     *
      * @return array|null
      */
     private function getFromJson($json)
     {
         $carriers_data = json_decode($json, true);
 
-        return (isset($carriers_data['carriers']) ? $carriers_data['carriers'] : null);
+        return isset($carriers_data['carriers']) ? $carriers_data['carriers'] : null;
     }
 
     /**
      * Validates data from API.
      *
-     * @param array $carriers Data retrieved from API.
+     * @param array $carriers data retrieved from API
+     *
      * @return bool
      */
     public function validateCarrierData(array $carriers)

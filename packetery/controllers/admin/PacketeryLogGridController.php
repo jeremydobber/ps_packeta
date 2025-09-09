@@ -1,4 +1,30 @@
 <?php
+/**
+ * 2017 Zlab Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ *  @author    Eugene Zubkov <magrabota@gmail.com>, RTsoft s.r.o
+ *  @copyright 2017 Zlab Solutions
+ *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
 use Packetery\Log\LogRepository;
 
@@ -12,9 +38,10 @@ class PacketeryLogGridController extends ModuleAdminController
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->bootstrap = true;
         $this->list_no_link = true;
-        $this->context = Context::getContext();
         $this->lang = false;
         $this->allow_export = true;
 
@@ -42,30 +69,30 @@ class PacketeryLogGridController extends ModuleAdminController
 
         $this->fields_list = [
             'status' => [
-                'title' => $this->l('Status', 'packeteryloggridcontroller'),
+                'title' => $this->trans('Status', [], 'Modules.Packetery.Admin'),
                 'type' => 'select',
                 'list' => [
-                    LogRepository::STATUS_SUCCESS => $this->l('Success', 'packeteryloggridcontroller'),
-                    LogRepository::STATUS_ERROR => $this->l('Error', 'packeteryloggridcontroller'),
+                    LogRepository::STATUS_SUCCESS => $this->trans('Success', [], 'Modules.Packetery.Admin'),
+                    LogRepository::STATUS_ERROR => $this->trans('Error', [], 'Modules.Packetery.Admin'),
                 ],
                 'align' => 'left',
                 'callback' => 'renderStatus',
                 'filter_key' => 'a!status',
             ],
             'order_id' => [
-                'title' => $this->l('Order ID', 'packeteryloggridcontroller'),
+                'title' => $this->trans('Order ID', [], 'Modules.Packetery.Admin'),
                 'align' => 'left',
                 'callback' => 'renderOrderId',
                 'filter_key' => 'a!order_id',
             ],
             'date' => [
-                'title' => $this->l('Date', 'packeteryloggridcontroller'),
+                'title' => $this->trans('Date', [], 'Modules.Packetery.Admin'),
                 'type' => 'datetime',
                 'align' => 'left',
                 'filter_key' => 'a!date',
             ],
             'action' => [
-                'title' => $this->l('Action', 'packeteryloggridcontroller'),
+                'title' => $this->trans('Action', [], 'Modules.Packetery.Admin'),
                 'type' => 'select',
                 'list' => $this->logRepository->getActionTranslations(),
                 'align' => 'left',
@@ -73,7 +100,7 @@ class PacketeryLogGridController extends ModuleAdminController
                 'filter_key' => 'a!action',
             ],
             'note' => [
-                'title' => $this->l('Note', 'packeteryloggridcontroller'),
+                'title' => $this->trans('Note', [], 'Modules.Packetery.Admin'),
                 'callback' => 'renderNoteColumn',
                 'align' => 'left',
                 'orderby' => false,
@@ -83,7 +110,7 @@ class PacketeryLogGridController extends ModuleAdminController
 
         $this->bulk_actions = [];
 
-        $title = $this->l('Logs', 'packeteryloggridcontroller');
+        $title = $this->trans('Logs', [], 'Modules.Packetery.Admin');
         $this->meta_title = $title;
         $this->toolbar_title = $title;
     }
@@ -91,8 +118,10 @@ class PacketeryLogGridController extends ModuleAdminController
     /**
      * @param string $value
      * @param array<string, string> $row
+     *
      * @return string
-     * @throws \PrestaShopException
+     *
+     * @throws PrestaShopException
      */
     public function renderAction($value, array $row)
     {
@@ -102,12 +131,14 @@ class PacketeryLogGridController extends ModuleAdminController
     /**
      * @param string $value
      * @param array<string, string> $row
+     *
      * @return string
-     * @throws \PrestaShopException
+     *
+     * @throws PrestaShopException
      */
     public function renderOrderId($value, array $row)
     {
-        if ((int)$value === 0) {
+        if ((int) $value === 0) {
             return '';
         }
 
@@ -117,7 +148,9 @@ class PacketeryLogGridController extends ModuleAdminController
     /**
      * @param string $value
      * @param array $row
+     *
      * @return string
+     *
      * @throws PrestaShopException
      * @throws SmartyException
      */
@@ -134,16 +167,18 @@ class PacketeryLogGridController extends ModuleAdminController
     /**
      * @param string $link
      * @param string $columnValue
+     *
      * @return false|string
+     *
      * @throws SmartyException
      */
     public function getColumnLink($link, $columnValue)
     {
         $smarty = new Smarty();
         $smarty->assign([
-                            'link' => $link,
-                            'columnValue' => $columnValue,
-                        ]);
+            'link' => $link,
+            'columnValue' => $columnValue,
+        ]);
 
         return $smarty->fetch(__DIR__ . '/../../views/templates/admin/grid/targetBlankLink.tpl');
     }
@@ -151,42 +186,47 @@ class PacketeryLogGridController extends ModuleAdminController
     /**
      * @param string $value
      * @param array<string, string> $row
+     *
      * @return string
-     * @throws \PrestaShopException
+     *
+     * @throws PrestaShopException
      */
     public function renderDate($value, array $row)
     {
-        return Tools::displayDate($value, null, 1);
+        return Tools::displayDate($value);
     }
 
     /**
      * @param string $value
      * @param array<string, string> $row
+     *
      * @return string
      */
     public function renderStatus($value, array $row)
     {
         if ($value === 'success') {
-            return '<span class="packeteryloggrid-success">' . $this->l('Success', 'packeteryloggridcontroller') . '</span>';
+            return '<span class="packeteryloggrid-success">' . $this->trans('Success', [], 'Modules.Packetery.Admin') . '</span>';
         }
 
-        return '<span class="packeteryloggrid-error">' . $this->l('Error', 'packeteryloggridcontroller') . '</span>';
+        return '<span class="packeteryloggrid-error">' . $this->trans('Error', [], 'Modules.Packetery.Admin') . '</span>';
     }
 
     /**
-     * @return \Packetery
+     * @return Packetery
      */
     private function getModule()
     {
         if ($this->packetery === null) {
             $this->packetery = new Packetery();
         }
+
         return $this->packetery;
     }
 
     /**
      * @param string $value
      * @param array<string, string> $row
+     *
      * @return string
      */
     public function renderNoteColumn($value, array $row)
@@ -209,12 +249,13 @@ class PacketeryLogGridController extends ModuleAdminController
 
     /**
      * @return false|string
-     * @throws \PrestaShopException
+     *
+     * @throws PrestaShopException
      */
     public function renderList()
     {
         if (Tools::getValue('id_order')) {
-            $this->_where = 'AND `a`.`order_id` = ' . (int)Tools::getValue('id_order');
+            $this->_where = 'AND `a`.`order_id` = ' . (int) Tools::getValue('id_order');
         }
 
         return parent::renderList();

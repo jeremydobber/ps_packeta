@@ -1,5 +1,4 @@
 <?php
-
 /**
  * 2017 Zlab Solutions
  *
@@ -23,6 +22,9 @@
  *  @copyright 2017 Zlab Solutions
  *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
 require_once dirname(__FILE__) . '/../../config/config.inc.php';
 require_once dirname(__FILE__) . '/../../init.php';
@@ -36,21 +38,21 @@ if ($token !== $real_token) {
 }
 
 switch (Tools::getValue('action')) {
-    /*FRONT*/
+    // FRONT
     case 'savePickupPointInCart':
         $module = new Packetery();
-        $orderSaver = $module->diContainer->get(\Packetery\Order\OrderSaver::class);
+        $orderSaver = $module->diContainer->get(Packetery\Order\OrderSaver::class);
         header('Content-Type: application/json');
         echo $orderSaver->savePickupPointInCartGetJson();
         break;
     case 'fetchExtraContent':
         $module = new Packetery();
-        $packeteryCart = $module->diContainer->get(\Packetery\Module\Cart::class);
+        $packeteryCart = $module->diContainer->get(Packetery\Module\Cart::class);
         echo $packeteryCart->packeteryCreateExtraContent();
         break;
     case 'saveAddressInCart':
         $module = new Packetery();
-        $orderAjax = $module->diContainer->get(\Packetery\Order\Ajax::class);
+        $orderAjax = $module->diContainer->get(Packetery\Order\Ajax::class);
         $orderAjax->saveAddressInCart();
         break;
     default:

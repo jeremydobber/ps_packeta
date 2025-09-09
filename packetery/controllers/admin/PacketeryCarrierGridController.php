@@ -1,4 +1,30 @@
 <?php
+/**
+ * 2017 Zlab Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ *  @author    Eugene Zubkov <magrabota@gmail.com>, RTsoft s.r.o
+ *  @copyright 2017 Zlab Solutions
+ *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
 use Packetery\ApiCarrier\ApiCarrierRepository;
 use Packetery\Carrier\CarrierAdminForm;
@@ -20,9 +46,10 @@ class PacketeryCarrierGridController extends ModuleAdminController
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->bootstrap = true;
         $this->list_no_link = true;
-        $this->context = Context::getContext();
         $this->lang = false;
         $this->allow_export = true;
 
@@ -56,35 +83,35 @@ class PacketeryCarrierGridController extends ModuleAdminController
         $this->availableCarriers = array_combine(array_column($packeteryCarriers, 'id_branch'), array_column($packeteryCarriers, 'name_branch'));
         foreach ($this->availableCarriers as $carrierId => $carrierName) {
             if ($carrierId === Packetery::ZPOINT && empty($carrierName)) {
-                $this->availableCarriers[Packetery::ZPOINT] = $this->l('Packeta pickup points', 'packeterycarriergridcontroller');
+                $this->availableCarriers[Packetery::ZPOINT] = $this->trans('Packeta pickup points', [], 'Modules.Packetery.Admin');
             } elseif ($carrierId === Packetery::PP_ALL && empty($carrierName)) {
-                $this->availableCarriers[Packetery::PP_ALL] = $this->l('Packeta pickup points (Packeta + carriers)', 'packeterycarriergridcontroller');
+                $this->availableCarriers[Packetery::PP_ALL] = $this->trans('Packeta pickup points (Packeta + carriers)', [], 'Modules.Packetery.Admin');
             }
         }
 
         $this->fields_list = [
             'id_carrier' => [
-                'title' => $this->l('ID', 'packeterycarriergridcontroller'),
+                'title' => $this->trans('ID', [], 'Modules.Packetery.Admin'),
                 'align' => 'center',
                 'class' => 'fixed-width-xs',
             ],
             'name' => [
-                'title' => $this->l('Carrier', 'packeterycarriergridcontroller'),
+                'title' => $this->trans('Carrier', [], 'Modules.Packetery.Admin'),
             ],
             'zones' => [
-                'title' => $this->l('Zones', 'packeterycarriergridcontroller'),
+                'title' => $this->trans('Zones', [], 'Modules.Packetery.Admin'),
                 'havingFilter' => false,
                 'search' => false,
                 'orderby' => false,
             ],
             'countries' => [
-                'title' => $this->l('Countries', 'packeterycarriergridcontroller'),
+                'title' => $this->trans('Countries', [], 'Modules.Packetery.Admin'),
                 'havingFilter' => false,
                 'search' => false,
                 'orderby' => false,
             ],
             'id_branch' => [
-                'title' => $this->l('Is delivery via Packeta', 'packeterycarriergridcontroller'),
+                'title' => $this->trans('Is delivery via Packeta', [], 'Modules.Packetery.Admin'),
                 'type' => 'select',
                 'list' => $this->availableCarriers,
                 'filter_key' => 'id_branch',
@@ -92,21 +119,21 @@ class PacketeryCarrierGridController extends ModuleAdminController
                 'callback' => 'getCarrierName',
             ],
             'is_active' => [
-                'title' => $this->l('Active', 'packeterycarriergridcontroller'),
+                'title' => $this->trans('Active', [], 'Modules.Packetery.Admin'),
                 'type' => 'bool',
                 'filter_key' => 'active',
                 'align' => 'center',
                 'callback' => 'getIconForBoolean',
             ],
             'is_cod' => [
-                'title' => $this->l('Is COD', 'packeterycarriergridcontroller'),
+                'title' => $this->trans('Is COD', [], 'Modules.Packetery.Admin'),
                 'type' => 'bool',
                 'align' => 'center',
                 'callback' => 'getIconForBoolean',
             ],
         ];
 
-        $title = $this->l('Packeta carriers list', 'packeterycarriergridcontroller');
+        $title = $this->trans('Packeta carriers list', [], 'Modules.Packetery.Admin');
         $this->meta_title = $title;
         $this->toolbar_title = $title;
 
@@ -124,7 +151,7 @@ class PacketeryCarrierGridController extends ModuleAdminController
     /**
      * @throws PrestaShopException
      * @throws PrestaShopDatabaseException
-     * @throws \Packetery\Exceptions\DatabaseException
+     * @throws Packetery\Exceptions\DatabaseException
      * @throws SmartyException
      * @throws ReflectionException
      */
@@ -144,7 +171,7 @@ class PacketeryCarrierGridController extends ModuleAdminController
         if ($this->_list) {
             $module = $this->getModule();
             foreach ($this->_list as $carrierData) {
-                $carrierHelper = new CarrierAdminForm((int)$carrierData['id_carrier'], $module);
+                $carrierHelper = new CarrierAdminForm((int) $carrierData['id_carrier'], $module);
                 $warning = $carrierHelper->getCarrierWarning($carrierData);
                 if ($warning) {
                     $this->warnings[] = $warning;
@@ -158,7 +185,7 @@ class PacketeryCarrierGridController extends ModuleAdminController
     public function renderView()
     {
         if (Tools::getIsset('viewcarrier')) {
-            $carrierHelper = new CarrierAdminForm((int)Tools::getValue('id_carrier'), $this->getModule());
+            $carrierHelper = new CarrierAdminForm((int) Tools::getValue('id_carrier'), $this->getModule());
             $carrierHelper->build();
             if ($carrierHelper->getError()) {
                 $this->errors[] = $carrierHelper->getError();
@@ -166,6 +193,7 @@ class PacketeryCarrierGridController extends ModuleAdminController
                 $this->tpl_view_vars['carrierHelper'] = $carrierHelper->getHtml();
             }
         }
+
         return parent::renderView();
     }
 
@@ -177,7 +205,9 @@ class PacketeryCarrierGridController extends ModuleAdminController
 
     /**
      * @param bool $booleanValue
+     *
      * @return false|string
+     *
      * @throws SmartyException
      */
     public function getIconForBoolean($booleanValue)
@@ -193,6 +223,7 @@ class PacketeryCarrierGridController extends ModuleAdminController
         if (isset($this->availableCarriers[$carrierId])) {
             return $this->availableCarriers[$carrierId];
         }
+
         return $carrierId;
     }
 
@@ -201,6 +232,7 @@ class PacketeryCarrierGridController extends ModuleAdminController
         if ($this->packetery === null) {
             $this->packetery = new Packetery();
         }
+
         return $this->packetery;
     }
 
@@ -212,7 +244,7 @@ class PacketeryCarrierGridController extends ModuleAdminController
 
         $smarty = new Smarty();
         $smarty->assign('link', CarrierTools::getEditLink($carrierId));
-        $smarty->assign('title', $this->l('Edit', 'packeterycarriergridcontroller'));
+        $smarty->assign('title', $this->trans('Edit', [], 'Modules.Packetery.Admin'));
         $smarty->assign('class', 'edit btn btn-default');
         $smarty->assign('icon', 'icon-pencil');
 

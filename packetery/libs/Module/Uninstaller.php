@@ -1,31 +1,53 @@
 <?php
+/**
+ * 2017 Zlab Solutions
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ *  @author    Eugene Zubkov <magrabota@gmail.com>, RTsoft s.r.o
+ *  @copyright 2017 Zlab Solutions
+ *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
 
 namespace Packetery\Module;
 
-use Configuration;
-use Exception;
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
 use Packetery;
 use Packetery\Log\LogRepository;
 use Packetery\PacketTracking\PacketTrackingRepository;
 use Packetery\Tools\ConfigHelper;
 use Packetery\Tools\DbTools;
-use PrestaShopException;
-use PrestaShopLogger;
-use Tab;
 
 class Uninstaller
 {
-    /** @var Packetery */
+    /** @var \Packetery */
     private $module;
 
     /** @var DbTools */
     private $dbTools;
 
     /**
-     * @param Packetery $module
+     * @param \Packetery $module
      * @param DbTools $dbTools
      */
-    public function __construct(Packetery $module, DbTools $dbTools)
+    public function __construct(\Packetery $module, DbTools $dbTools)
     {
         $this->module = $module;
         $this->dbTools = $dbTools;
@@ -33,49 +55,53 @@ class Uninstaller
 
     /**
      * @return bool
-     * @throws PrestaShopException
+     *
+     * @throws \PrestaShopException
      * @throws \PrestaShopDatabaseException
      * @throws \PrestaShop\PrestaShop\Adapter\CoreException
      * @throws \ReflectionException
      */
     public function run()
     {
-        return (
-            $this->deleteMenuItems() &&
-            $this->uninstallDatabase() &&
-            $this->unregisterHooks() &&
-            $this->deleteConfiguration()
-        );
+        return
+            $this->deleteMenuItems()
+            && $this->uninstallDatabase()
+            && $this->unregisterHooks()
+            && $this->deleteConfiguration()
+        ;
     }
 
     private function deleteMenuItems()
     {
-        return $this->deleteTab('Packetery') &&
-            $this->deleteTab('PacketerySetting') &&
-            $this->deleteTab('PacketeryCarrierGrid') &&
-            $this->deleteTab('PacketeryOrderGrid') &&
-            $this->deleteTab('PacketeryLogGrid');
+        return $this->deleteTab('Packetery')
+            && $this->deleteTab('PacketerySetting')
+            && $this->deleteTab('PacketeryCarrierGrid')
+            && $this->deleteTab('PacketeryOrderGrid')
+            && $this->deleteTab('PacketeryLogGrid');
     }
 
     /**
      * @param string $className
+     *
      * @return bool
-     * @throws PrestaShopException
+     *
+     * @throws \PrestaShopException
      * @throws \PrestaShopDatabaseException
      * @throws \PrestaShop\PrestaShop\Adapter\CoreException
      */
     public function deleteTab($className)
     {
-        $tabId = Tab::getIdFromClassName($className);
+        $tabId = \Tab::getIdFromClassName($className);
         if ($tabId) {
             try {
-                $tab = new Tab($tabId);
-            } catch (PrestaShopException $exception) {
-                PrestaShopLogger::addLog($this->getExceptionRaisedText() . ' ' .
+                $tab = new \Tab($tabId);
+            } catch (\PrestaShopException $exception) {
+                \PrestaShopLogger::addLog($this->getExceptionRaisedText() . ' ' .
                     $exception->getMessage(), 3, null, null, null, true);
 
                 return false;
             }
+
             return $tab->delete();
         }
 
@@ -84,6 +110,7 @@ class Uninstaller
 
     /**
      * @return bool
+     *
      * @throws \ReflectionException
      */
     private function uninstallDatabase()
@@ -133,13 +160,13 @@ class Uninstaller
                 if ($this->module->unregisterHook($hookName) === false) {
                     $failedHooks[] = $hookName;
                 }
-            } catch (Exception $exception) {
+            } catch (\Exception $exception) {
                 $failedHooks[] = $hookName . ' - ' . $exception->getMessage();
             }
         }
 
         if (count($failedHooks) > 0) {
-            PrestaShopLogger::addLog('Packetery: Failed to unregister hooks: ' . implode(', ', $failedHooks), 3, null, null, null, true);
+            \PrestaShopLogger::addLog('Packetery: Failed to unregister hooks: ' . implode(', ', $failedHooks), 3, null, null, null, true);
         }
 
         return true;
@@ -150,23 +177,23 @@ class Uninstaller
      */
     private function deleteConfiguration()
     {
-        return (
-            Configuration::deleteByName('PACKETERY_APIPASS') &&
-            Configuration::deleteByName('PACKETERY_ESHOP_ID') &&
-            Configuration::deleteByName('PACKETERY_LABEL_FORMAT') &&
-            Configuration::deleteByName('PACKETERY_CARRIER_LABEL_FORMAT') &&
-            Configuration::deleteByName('PACKETERY_LAST_CARRIERS_UPDATE') &&
-            Configuration::deleteByName('PACKETERY_WIDGET_AUTOOPEN') &&
-            Configuration::deleteByName('PACKETERY_CRON_TOKEN') &&
-            Configuration::deleteByName('PACKETERY_ID_PREFERENCE') &&
-            Configuration::deleteByName('PACKETERY_DEFAULT_PACKAGE_PRICE') &&
-            Configuration::deleteByName('PACKETERY_DEFAULT_PACKAGE_WEIGHT') &&
-            Configuration::deleteByName('PACKETERY_DEFAULT_PACKAGING_WEIGHT') &&
-            Configuration::deleteByName(ConfigHelper::KEY_LAST_VERSION_CHECK_TIMESTAMP) &&
-            Configuration::deleteByName(ConfigHelper::KEY_LAST_VERSION) &&
-            Configuration::deleteByName(ConfigHelper::KEY_LAST_VERSION_URL) &&
-            Configuration::deleteByName(ConfigHelper::KEY_USE_PS_CURRENCY_CONVERSION)
-        );
+        return
+            \Configuration::deleteByName('PACKETERY_APIPASS')
+            && \Configuration::deleteByName('PACKETERY_ESHOP_ID')
+            && \Configuration::deleteByName('PACKETERY_LABEL_FORMAT')
+            && \Configuration::deleteByName('PACKETERY_CARRIER_LABEL_FORMAT')
+            && \Configuration::deleteByName('PACKETERY_LAST_CARRIERS_UPDATE')
+            && \Configuration::deleteByName('PACKETERY_WIDGET_AUTOOPEN')
+            && \Configuration::deleteByName('PACKETERY_CRON_TOKEN')
+            && \Configuration::deleteByName('PACKETERY_ID_PREFERENCE')
+            && \Configuration::deleteByName('PACKETERY_DEFAULT_PACKAGE_PRICE')
+            && \Configuration::deleteByName('PACKETERY_DEFAULT_PACKAGE_WEIGHT')
+            && \Configuration::deleteByName('PACKETERY_DEFAULT_PACKAGING_WEIGHT')
+            && \Configuration::deleteByName(ConfigHelper::KEY_LAST_VERSION_CHECK_TIMESTAMP)
+            && \Configuration::deleteByName(ConfigHelper::KEY_LAST_VERSION)
+            && \Configuration::deleteByName(ConfigHelper::KEY_LAST_VERSION_URL)
+            && \Configuration::deleteByName(ConfigHelper::KEY_USE_PS_CURRENCY_CONVERSION)
+        ;
     }
 
     /**
