@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="ModulesPacketerySoapapi.xlf" source-language="hu-HU" target-language="hu-HU" datatype="plaintext">
+    <body>
+      <trans-unit id="d71e2835dd2dece42d55e29929bf006c">
+        <source>Used API password is not valid.</source>
+        <target>Az API jelszó érvénytelen.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="ModulesPacketeryWidget.xlf" source-language="hu-HU" target-language="hu-HU" datatype="plaintext">
+    <body>
+      <trans-unit id="397164405b87202533b09fd47a137141">
+        <source>Please select a pick up point before confirming your order</source>
+        <target>Kérjül válasszon ki egy csomagpontot a folytatáshoz!</target>
+      </trans-unit>
+      <trans-unit id="422f03dbebc5e4e66d1d5b7e4564c355">
+        <source>Select pick-up point:</source>
+        <target>Válasszon csomagpontot</target>
+      </trans-unit>
+      <trans-unit id="81bd9c17af94c31967cdb6870f154d83">
+        <source>Selected pick-up point:</source>
+        <target>Kiválasztott csomagpont:</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

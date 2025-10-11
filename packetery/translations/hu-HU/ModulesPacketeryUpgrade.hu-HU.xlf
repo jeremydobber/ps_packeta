@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="ModulesPacketeryUpgrade.xlf" source-language="hu-HU" target-language="hu-HU" datatype="plaintext">
+    <body>
+      <trans-unit id="dccfc27ffe830d44560890217a879cf6">
+        <source>Exception raised during Packetery module upgrade:</source>
+        <target>A Packeta modul frissítése hibába ütközött:</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

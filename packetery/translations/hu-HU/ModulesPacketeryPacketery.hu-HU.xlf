@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="ModulesPacketeryPacketery.xlf" source-language="hu-HU" target-language="hu-HU" datatype="plaintext">
+    <body>
+      <trans-unit id="b457f4aa9f09cd579e9df57dd154ed57">
+        <source>1/16 of A4, direct printing, 1 label per page</source>
+        <target>1/16 of A4, direct printing, 1 label per page</target>
+      </trans-unit>
+      <trans-unit id="e327a2129b01bbe3dca847bb7936af3e">
+        <source>1/4 of A4, direct printing, 1 label per page</source>
+        <target>1/4 of A4, direct printing, 1 label per page</target>
+      </trans-unit>
+      <trans-unit id="ff0c01bbc46cf7e4687f36889fbb9270">
+        <source>1/4 of A4, printed on A4, 4 labels per page</source>
+        <target>1/4 of A4, printed on A4, 4 labels per page</target>
+      </trans-unit>
+      <trans-unit id="4b7b2401eede004b1901ebd3f73bb286">
+        <source>1/8 of A4, direct printing, 1 label per page</source>
+        <target>1/8 of A4, direct printing, 1 label per page</target>
+      </trans-unit>
+      <trans-unit id="5df9377515dc5fba190cd021d1807316">
+        <source>1/8 of A4, printed on A4, 8 labels per page</source>
+        <target>1/8 of A4, printed on A4, 8 labels per page</target>
+      </trans-unit>
+      <trans-unit id="1e5b2eadf83c2678a69f1d4608b673c8">
+        <source>105x35mm, printed on A4, 16 labels per page</source>
+        <target>105x35mm, printed on A4, 16 labels per page</target>
+      </trans-unit>
+      <trans-unit id="37e31370e4ab230ff6fba12cc6390aff">
+        <source>API password</source>
+        <target>API password</target>
+      </trans-unit>
+      <trans-unit id="a29aff418504e8f98f1df376c2197791">
+        <source>Address is not valid.</source>
+        <target>Address is not valid.</target>
+      </trans-unit>
+      <trans-unit id="b31ae2e8a9df3865e65663e97a228003">
+        <source>Address is valid.</source>
+        <target>Address is valid.</target>
+      </trans-unit>
+      <trans-unit id="c07518b15fc1ccf70a90a96d7969b8c2">
+        <source>As the order ID, use</source>
+        <target>As the order ID, use</target>
+      </trans-unit>
+      <trans-unit id="bce7c96973feb8b2e9c4a771f4c81f2a">
+        <source>Automatically open widget in cart</source>
+        <target>Automatically open widget in cart</target>
+      </trans-unit>
+      <trans-unit id="4840265b184bb8bc931718aadce4568d">
+        <source>Carrier label format</source>
+        <target>Carrier label format</target>
+      </trans-unit>
+      <trans-unit id="3456022ec851936e5a662be31d8ad347">
+        <source>Currency conversion</source>
+        <target>Currency conversion</target>
+      </trans-unit>
+      <trans-unit id="00d71b1bbc3658188c7d35ba1636db50">
+        <source>Default package price</source>
+        <target>Default package price</target>
+      </trans-unit>
+      <trans-unit id="84c8a10822c7faee2a7da35f21bcbbb0">
+        <source>Default package weight in kg</source>
+        <target>Default package weight in kg</target>
+      </trans-unit>
+      <trans-unit id="09cc549473f5edb203a77e6b3beda297">
+        <source>Default packaging weight in kg</source>
+        <target>Default packaging weight in kg</target>
+      </trans-unit>
+      <trans-unit id="c7a9897222ccc29969be2a381940a839">
+        <source>Disable currency conversion, cash on delivery will be sent to Packeta in the currency of the order</source>
+        <target>Disable currency conversion, cash on delivery will be sent to Packeta in the currency of the order</target>
+      </trans-unit>
+      <trans-unit id="000a7cf5b97edec307d386b1bb1e1123">
+        <source>Enable currency conversion according to the exchange rate in PrestaShop</source>
+        <target>Enable currency conversion according to the exchange rate in PrestaShop</target>
+      </trans-unit>
+      <trans-unit id="75a4addb898a0f4d3fc25f3151867d1e">
+        <source>Enter the default value for the shipment if the order price is zero</source>
+        <target>Enter the default value for the shipment if the order price is zero</target>
+      </trans-unit>
+      <trans-unit id="b877a2000dc00171fceb18b72656767e">
+        <source>Enter the default weight for the shipment if the order weight is zero</source>
+        <target>Enter the default weight for the shipment if the order weight is zero</target>
+      </trans-unit>
+      <trans-unit id="0ac62368d045d827ff9c432a69a636d8">
+        <source>Enter the default weight of the packaging in kg if the order weight is non-zero</source>
+        <target>Enter the default weight of the packaging in kg if the order weight is non-zero</target>
+      </trans-unit>
+      <trans-unit id="e35932e04a726a6aeaf748a6bb5d4267">
+        <source>Export orders to Packeta system.</source>
+        <target>Export orders to Packeta system.</target>
+      </trans-unit>
+      <trans-unit id="7e436ecba5095ef42cfeb5b696fbbdfd">
+        <source>Get your customers access to pick-up point in Packeta delivery network.</source>
+        <target>Get your customers access to pick-up point in Packeta delivery network.</target>
+      </trans-unit>
+      <trans-unit id="bafd7322c6e97d25b6299b5d6fe8920b">
+        <source>No</source>
+        <target>No</target>
+      </trans-unit>
+      <trans-unit id="5488268ddc84626385570bad05d6eed6">
+        <source>No way to access Packeta API is available on the web server: please allow CURL module or allow_url_fopen setting.</source>
+        <target>No way to access Packeta API is available on the web server: please allow CURL module or allow_url_fopen setting.</target>
+      </trans-unit>
+      <trans-unit id="d79cf3f429596f77db95c65074663a54">
+        <source>Order ID</source>
+        <target>Order ID</target>
+      </trans-unit>
+      <trans-unit id="1e860e56970a81a1ba3e1fcb7fccc846">
+        <source>Order Reference</source>
+        <target>Order Reference</target>
+      </trans-unit>
+      <trans-unit id="82dac591dcd0307fb98e07dd6b14b5d4">
+        <source>Order status change</source>
+        <target>Order status change</target>
+      </trans-unit>
+      <trans-unit id="c094942e6862342615ed2c1b6e2ee311">
+        <source>Order validation failed, shop owner can find more information in log.</source>
+        <target>Order validation failed, shop owner can find more information in log.</target>
+      </trans-unit>
+      <trans-unit id="4a65c9986d5bd7296b865722de481cfd">
+        <source>Packet status tracking</source>
+        <target>Packet status tracking</target>
+      </trans-unit>
+      <trans-unit id="4a93d9164aad959a6abc2de389170ac9">
+        <source>Packeta</source>
+        <target>Packeta</target>
+      </trans-unit>
+      <trans-unit id="35c4f71040b3390abc9a98803735e993">
+        <source>Packeta API password is not set.</source>
+        <target>Packeta API password is not set.</target>
+      </trans-unit>
+      <trans-unit id="52d4b883141181c841590fe354a61023">
+        <source>Packeta label format</source>
+        <target>Packeta label format</target>
+      </trans-unit>
+      <trans-unit id="34d961ea46be6bd89ea050f383853695">
+        <source>Packeta pick-up points, orders export, and print shipping labels</source>
+        <target>Packeta pick-up points, orders export, and print shipping labels</target>
+      </trans-unit>
+      <trans-unit id="155bf3eafccd1f4eb6ddf803c886541b">
+        <source>Packeta settings</source>
+        <target>Packeta settings</target>
+      </trans-unit>
+      <trans-unit id="f79d6a6f050eb0830474c376c1e5a772">
+        <source>Payment methods representing COD</source>
+        <target>Payment methods representing COD</target>
+      </trans-unit>
+      <trans-unit id="9aa49c5a01dab7e49c73343b47e995a2">
+        <source>Please select pickup point</source>
+        <target>Please select pickup point</target>
+      </trans-unit>
+      <trans-unit id="07608de8f1d9e40a5f847709512faa36">
+        <source>Please select pickup point.</source>
+        <target>Please select pickup point.</target>
+      </trans-unit>
+      <trans-unit id="492bd00238d3ccba86931c7d815092be">
+        <source>Please use widget to validate address.</source>
+        <target>Please use widget to validate address.</target>
+      </trans-unit>
+      <trans-unit id="c9cc8cce247e49bae79f15173ce97354">
+        <source>Save</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id="6f95966a9adeb388ffaaa27ca7829365">
+        <source>Selected Packeta pickup point</source>
+        <target>Selected Packeta pickup point</target>
+      </trans-unit>
+      <trans-unit id="5d1018958f219ffc9fe4500d4fde09b1">
+        <source>Selected Packeta pickup point or carrier</source>
+        <target>Selected Packeta pickup point or carrier</target>
+      </trans-unit>
+      <trans-unit id="a4f70091d9d7af3201e79bce9c5f6543">
+        <source>Sender indication</source>
+        <target>Sender indication</target>
+      </trans-unit>
+      <trans-unit id="c888438d14855d7d96a2724ee9c306bd">
+        <source>Settings updated</source>
+        <target>Settings updated</target>
+      </trans-unit>
+      <trans-unit id="27b79406ca95fbf0b6cc567f543a92af">
+        <source>Soap is disabled. You have to enable Soap on your server</source>
+        <target>Soap is disabled. You have to enable Soap on your server</target>
+      </trans-unit>
+      <trans-unit id="c721b4e2739ac6e4dd5b507696c0a24d">
+        <source>The Packeta module folder must be writable for the pickup point selection to work properly.</source>
+        <target>The Packeta module folder must be writable for the pickup point selection to work properly.</target>
+      </trans-unit>
+      <trans-unit id="01cc5fe5f67b16dce1aed3be2decee42">
+        <source>The default weight unit for your store is: %s. When exporting packets, the module will not state its weight for the packet. If you want to export the weight of the packet, you need to set the default unit to one of: %s.</source>
+        <target>The default weight unit for your store is: %s. When exporting packets, the module will not state its weight for the packet. If you want to export the weight of the packet, you need to set the default unit to one of: %s.</target>
+      </trans-unit>
+      <trans-unit id="44e05cef9b23421538483520e6cc0934">
+        <source>The selected delivery address is in a country other than the country of delivery of the order.</source>
+        <target>The selected delivery address is in a country other than the country of delivery of the order.</target>
+      </trans-unit>
+      <trans-unit id="3bbd0c26a030a37f3aa35043965f9df1">
+        <source>The shipment was successfully submitted under shipment number:</source>
+        <target>The shipment was successfully submitted under shipment number:</target>
+      </trans-unit>
+      <trans-unit id="93cba07454f06a4a960172bbd6e2a435">
+        <source>Yes</source>
+        <target>Yes</target>
+      </trans-unit>
+      <trans-unit id="509cb09acf01e93e7af79a03f6e3ba17">
+        <source>You can find the sender indication in the client section: %s in the "indication" field.</source>
+        <target>You can find the sender indication in the client section: %s in the "indication" field.</target>
+      </trans-unit>
+      <trans-unit id="92d4773a9f32fc3333cb8238471cf763">
+        <source>You have to enable the cURL extension on your server to install this module</source>
+        <target>You have to enable the cURL extension on your server to install this module</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

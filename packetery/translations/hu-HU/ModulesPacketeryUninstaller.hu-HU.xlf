@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="ModulesPacketeryUninstaller.xlf" source-language="hu-HU" target-language="hu-HU" datatype="plaintext">
+    <body>
+      <trans-unit id="e21a827831f90240feccbb1f8fd8c7e3">
+        <source>Exception raised during Packetery module uninstall:</source>
+        <target>Exception raised during Packetery module uninstall:</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

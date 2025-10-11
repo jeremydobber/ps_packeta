@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="ModulesPacketeryApicarrierrepository.xlf" source-language="hu-HU" target-language="hu-HU" datatype="plaintext">
+    <body>
+      <trans-unit id="0ace50d3fdc56a8b3ecf3532baa0990c">
+        <source>Packeta pickup points</source>
+        <target>Packeta pickup points</target>
+      </trans-unit>
+      <trans-unit id="85ad5aeec9dfb9e0650de5fbfecd88da">
+        <source>Packeta pickup points (Packeta + carriers)</source>
+        <target>Packeta pickup points (Packeta + carriers)</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

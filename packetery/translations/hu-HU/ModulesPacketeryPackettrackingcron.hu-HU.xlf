@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="ModulesPacketeryPackettrackingcron.xlf" source-language="hu-HU" target-language="hu-HU" datatype="plaintext">
+    <body>
+      <trans-unit id="bba897ab8bf5da4eab16852021ec3fca">
+        <source>No order statuses configured for packet tracking</source>
+        <target>A csomagkövetéshez nincsenek beállított rendelés-állapotok.</target>
+      </trans-unit>
+      <trans-unit id="694634a346412a3843bb432d70ac220b">
+        <source>Order statuses have been updated.</source>
+        <target>Rendelés-állapotok frissítve.</target>
+      </trans-unit>
+      <trans-unit id="d356a19c67e3509908065e241b0df4d7">
+        <source>Packet status tracking is not active</source>
+        <target>A csomagkövetés ki van kapcsolva</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

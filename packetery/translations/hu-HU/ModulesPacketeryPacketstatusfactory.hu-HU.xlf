@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="ModulesPacketeryPacketstatusfactory.xlf" source-language="hu-HU" target-language="hu-HU" datatype="plaintext">
+    <body>
+      <trans-unit id="5cc947b5efb336bdc891168bbe250e13">
+        <source>Accepted at depot</source>
+        <target>Accepted at depot</target>
+      </trans-unit>
+      <trans-unit id="5a0bfb21da806f4aa47aa852628af10b">
+        <source>Awaiting consignment</source>
+        <target>Awaiting consignment</target>
+      </trans-unit>
+      <trans-unit id="a149e85a44aeec9140e92733d9ed694e">
+        <source>Cancelled</source>
+        <target>Törölve</target>
+      </trans-unit>
+      <trans-unit id="d260371f86b91a61f44137ab9ede6698">
+        <source>Customs declaration process</source>
+        <target>Customs declaration process</target>
+      </trans-unit>
+      <trans-unit id="67edd3b99247c9eb5884a02802a20fa7">
+        <source>Delivered</source>
+        <target>Delivered</target>
+      </trans-unit>
+      <trans-unit id="f845db4a6afc1d13fb110620feff779a">
+        <source>Departed from depot</source>
+        <target>Departed from depot</target>
+      </trans-unit>
+      <trans-unit id="1a34b515b06c745fdc8db940ef7e0513">
+        <source>Handed over to carrier company</source>
+        <target>Handed over to carrier company</target>
+      </trans-unit>
+      <trans-unit id="b294f7507c86ee75e4b6107b816d2d14">
+        <source>On the way</source>
+        <target>Úton</target>
+      </trans-unit>
+      <trans-unit id="d7be43ee6cef0bd34e2b211322615834">
+        <source>Parcel has been collected</source>
+        <target>Csomag felvéve</target>
+      </trans-unit>
+      <trans-unit id="6353f017840d931dfc62862e5c2f9864">
+        <source>Ready for pick-up</source>
+        <target>Felvételre kész</target>
+      </trans-unit>
+      <trans-unit id="0c2b856e1c30ab57f4e8134f65940cc6">
+        <source>Rejected by recipient response</source>
+        <target>Rejected by recipient response</target>
+      </trans-unit>
+      <trans-unit id="dab103434acd20a0542679b4fe31cf6d">
+        <source>Returned to sender</source>
+        <target>Returned to sender</target>
+      </trans-unit>
+      <trans-unit id="8fa7e41cb7d17fafc28d5b0c2da0c23b">
+        <source>Returning (on the way back)</source>
+        <target>Returning (on the way back)</target>
+      </trans-unit>
+      <trans-unit id="d3dd234890c253195390a0b779b14023">
+        <source>Reverse parcel has been accepted at our pick up point</source>
+        <target>Reverse parcel has been accepted at our pick up point</target>
+      </trans-unit>
+      <trans-unit id="0b1ee8113a131a340c086e907cbad951">
+        <source>Unknown parcel status</source>
+        <target>Unknown parcel status</target>
+      </trans-unit>
+      <trans-unit id="698bec647110c4b82dd50b21c43c2a5d">
+        <source>Unsuccessful delivery attempt of parcel</source>
+        <target>Unsuccessful delivery attempt of parcel</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="ModulesPacketeryDownloader.xlf" source-language="hu-HU" target-language="hu-HU" datatype="plaintext">
+    <body>
+      <trans-unit id="ae4593859212da2371dd8db75461239d">
+        <source>Carrier download failed: %s Please try again later.</source>
+        <target>Carrier download failed: %s Please try again later.</target>
+      </trans-unit>
+      <trans-unit id="8e64f4816d0026c2ac24d8e0f0e62de0">
+        <source>Carriers were updated.</source>
+        <target>Carriers were updated.</target>
+      </trans-unit>
+      <trans-unit id="962437147c581d5b304392ee8f920ce5">
+        <source>Failed to get the list.</source>
+        <target>Failed to get the list.</target>
+      </trans-unit>
+      <trans-unit id="a2b5e89ee86d19550fccf24d694324ee">
+        <source>Invalid API response.</source>
+        <target>Invalid API response.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
